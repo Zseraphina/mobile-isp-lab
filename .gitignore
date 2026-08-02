@@ -1,0 +1,17 @@
+# Python虚拟环境
+.venv/
+
+# Python运行产生的缓存
+__pycache__/
+*.py[cod]
+
+# 编辑器与系统文件
+.vscode/
+.DS_Store
+
+# 大体积RAW素材与临时图像
+data/raw/*
+!data/raw/.gitkeep
+
+data/output/*
+!data/output/.gitkeep
