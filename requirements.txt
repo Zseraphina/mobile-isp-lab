@@ -3,3 +3,7 @@ matplotlib
 opencv-python-headless
 rawpy
 imageio
+pillow
+scikit-image
+scipy
+tqdm
