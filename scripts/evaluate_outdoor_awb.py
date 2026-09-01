@@ -70,7 +70,7 @@ patch_names = [
     "Black",
 ]
 
-# 四种方法的稳定输出路径
+# 六种方法的稳定输出路径
 image_paths = {
     "Fixed WB": Path(
         "/workspace/infinite-isp-baseline/out_frames/"
@@ -87,6 +87,14 @@ image_paths = {
     "PCA AWB": Path(
         "/workspace/infinite-isp-baseline/out_frames/"
         "Outdoor1_pca_awb.png"
+    ),
+    "Hybrid AWB": Path(
+        "/workspace/infinite-isp-baseline/out_frames/"
+        "Outdoor1_hybrid_awb.png"
+    ),
+    "Hybrid V3": Path(
+        "/workspace/infinite-isp-baseline/out_frames/"
+        "Outdoor1_hybrid_v3_awb.png"
     ),
 }
 
@@ -134,11 +142,11 @@ for method_name, image_path in image_paths.items():
     )
 
 
-# 创建2行2列的四图对比
+# 创建2行3列的六图对比
 fig, axes = plt.subplots(
     2,
-    2,
-    figsize=(14, 8)
+    3,
+    figsize=(18, 8)
 )
 
 for ax, method_name in zip(
@@ -147,6 +155,10 @@ for ax, method_name in zip(
 ):
     ax.imshow(images[method_name])
     ax.set_title(method_name)
+    ax.axis("off")
+
+# 五张图片只占用五个子图，隐藏剩余的空白子图
+for ax in list(axes.flat)[len(image_paths):]:
     ax.axis("off")
 
 fig.suptitle(
@@ -534,7 +546,8 @@ with open(
 ) as csv_file:
     writer = csv.DictWriter(
         csv_file,
-        fieldnames=summary_fields
+        fieldnames=summary_fields,
+        lineterminator="\n"
     )
 
     writer.writeheader()
@@ -582,7 +595,10 @@ with open(
     newline="",
     encoding="utf-8"
 ) as csv_file:
-    writer = csv.writer(csv_file)
+    writer = csv.writer(
+        csv_file,
+        lineterminator="\n"
+    )
 
     writer.writerow(
         [
@@ -637,6 +653,8 @@ bars = summary_ax.bar(
         "steelblue",
         "seagreen",
         "darkorange",
+        "mediumpurple",
+        "crimson",
     ]
 )
 

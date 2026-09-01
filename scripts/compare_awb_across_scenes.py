@@ -33,6 +33,8 @@ method_order = [
     "Norm2 AWB",
     "Gray World",
     "PCA AWB",
+    "Hybrid AWB",
+    "Hybrid V3",
 ]
 
 
@@ -91,7 +93,7 @@ scene_matrix = np.array(
     dtype=np.float64
 )
 
-# axis=1表示平均掉两个场景，保留四种方法
+# axis=1表示平均掉两个场景，保留全部AWB方法
 two_scene_mean = np.mean(
     scene_matrix,
     axis=1
@@ -142,7 +144,8 @@ with output_csv_path.open(
 
     writer = csv.DictWriter(
         csv_file,
-        fieldnames=field_names
+        fieldnames=field_names,
+        lineterminator="\n"
     )
 
     writer.writeheader()
@@ -228,6 +231,8 @@ method_colors = [
     "#4C78A8",
     "#54A24B",
     "#F58518",
+    "#9C6ADE",
+    "#D62728",
 ]
 
 mean_bars = axes[1].bar(

@@ -125,7 +125,7 @@ print("Image shape:", image_rgb.shape)
 print("Number of patches:", patch_number - 1)
 print("Saved:", output_path)
 
-# 四种白平衡方法对应的输出图片
+# 六种白平衡方法对应的输出图片
 evaluation_image_paths = {
     "Fixed WB": Path(
         "/workspace/infinite-isp-baseline/out_frames/"
@@ -142,6 +142,14 @@ evaluation_image_paths = {
     "PCA AWB": Path(
         "/workspace/infinite-isp-baseline/out_frames/"
         "Out_Indoor1_2592x1536_12bit_RGGB_20260827_000854.png"
+    ),
+    "Hybrid AWB": Path(
+        "/workspace/infinite-isp-baseline/out_frames/"
+        "Indoor1_hybrid_awb.png"
+    ),
+    "Hybrid V3": Path(
+        "/workspace/infinite-isp-baseline/out_frames/"
+        "Indoor1_hybrid_v3_awb.png"
     ),
 }
 
@@ -330,7 +338,7 @@ evaluation_results_dir.mkdir(
     exist_ok=True
 )
 
-# 保持四种方法当前的排列顺序
+# 保持当前方法的排列顺序
 method_order = list(delta_e_results.keys())
 
 
@@ -362,7 +370,8 @@ with open(
 ) as csv_file:
     writer = csv.DictWriter(
         csv_file,
-        fieldnames=summary_fieldnames
+        fieldnames=summary_fieldnames,
+        lineterminator="\n"
     )
 
     writer.writeheader()
@@ -408,7 +417,10 @@ with open(
     newline="",
     encoding="utf-8"
 ) as csv_file:
-    writer = csv.writer(csv_file)
+    writer = csv.writer(
+        csv_file,
+        lineterminator="\n"
+    )
 
     writer.writerow(
         [
@@ -438,7 +450,7 @@ print("Saved:", patch_csv_path)
 
 
 # ============================================================
-# 3. 绘制四种方法的平均ΔE00柱状图
+# 3. 绘制全部方法的平均ΔE00柱状图
 # ============================================================
 
 mean_delta_e_values = np.array(
@@ -460,6 +472,8 @@ bars = summary_ax.bar(
         "steelblue",
         "seagreen",
         "darkorange",
+        "mediumpurple",
+        "crimson",
     ]
 )
 
@@ -517,7 +531,7 @@ print("Saved:", summary_figure_path)
 
 
 # ============================================================
-# 4. 绘制四种方法×24色块的ΔE00热力图
+# 4. 绘制全部方法×24色块的ΔE00热力图
 # ============================================================
 
 delta_e_matrix = np.vstack(
