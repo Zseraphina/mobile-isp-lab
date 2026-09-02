@@ -177,6 +177,29 @@ The candidate analyzer imports Infinite-ISP's original `JointBF` implementation 
 
 The evaluation scripts also read pre-rendered PNG files from the Infinite-ISP `out_frames` directory. Their expected filenames are defined near the beginning of each evaluation script. If the Infinite-ISP repository or rendered outputs are stored elsewhere, update these paths before running the evaluation.
 
+## Reference Baseline and Attribution
+
+This repository is an independent educational and experimental study that uses the open-source [Infinite-ISP](https://github.com/10x-Engineers/Infinite-ISP) project by 10xEngineers as a separately checked-out reference ISP pipeline.
+
+During development, `mobile-isp-lab` and Infinite-ISP are maintained as separate repositories. This repository does not fork, vendor, or redistribute Infinite-ISP source code. The classical Gray World, Norm2 Gray World, and PCA AWB candidates were independently reimplemented after studying the corresponding Infinite-ISP modules, with their preprocessing sequence and gain calculations intentionally aligned to the reference pipeline. The candidate analyzer also imports Infinite-ISP's original `JointBF` implementation from a compatible local checkout at runtime so that Bayer noise reduction matches the reference pipeline.
+
+Infinite-ISP is used to:
+
+- align black-level correction, Bayer-domain noise reduction, exposure filtering, and candidate-gain calculations;
+- render final Hybrid AWB gains through an Infinite-ISP configuration with `render_3a: false`;
+- compare reproduced candidate gains against reference-pipeline outputs.
+
+The candidate-analysis workflow, reliability diagnostics, family-aware Hybrid AWB V3 fusion logic, ColorChecker evaluation, visualizations, experiment design, and documentation in this repository were developed independently for this project.
+
+Users should clone and configure Infinite-ISP separately. Infinite-ISP and any RAW input data remain subject to their respective licenses and usage terms.
+
+## License
+
+The original code and documentation in this repository are released under the [MIT License](LICENSE).
+
+The MIT License applies only to the original work in this repository. Infinite-ISP is an external dependency and remains subject to its own [Apache-2.0 license](https://github.com/10x-Engineers/Infinite-ISP/blob/main/LICENSE).
+
+
 ## Usage
 
 ### Bayer and demosaicing experiment
